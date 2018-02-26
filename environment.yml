@@ -1,0 +1,6 @@
+name: buildver-resource
+dependencies:
+- python=3.6.4
+- pip
+- pip:
+  - awscli
