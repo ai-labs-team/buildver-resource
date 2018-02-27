@@ -54,3 +54,7 @@ __`check` : Check for changes in the version number__
 __`in` : Provide the version file__
 
 Provides the version file as `version.txt`
+
+## Contributing
+
+Please see Contrib.md
