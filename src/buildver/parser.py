@@ -81,16 +81,3 @@ class CheckVersion():
     def check_for_major_release(self, version):
         check_major = re.search(r"\d\.0\.0", version)
         return False if check_major is None else True
-
-def main():
-    payload = {
-        'source': {
-            'build_on': 'patch'
-        }
-    }
-    check = CheckVersion(payload)
-    ver = check.check_for_new_version('0.0.1','0.0.1-pre.1')
-    print('New Version: ', str(ver))
-
-if __name__ == '__main__':
-    main()
