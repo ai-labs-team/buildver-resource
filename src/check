@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import sys
+import json
+import datetime
+
+from buildver.driver import s3
+from buildver.parser import CheckVersion
+
+def check(instream):
+    input = json.load(instream)
+
+    s3_session = s3(input['source']['access_key'],input['source']['secret_access_key'])
+    text = s3_session.s3_download(input['source']['bucket'], input['source']['file'])
+
+    new_version = ""
+
+    if (input["version"] is None):
+        new_version = text
+    else:
+        old_version = input["version"]["Version"].split(" ")[0].rstrip()
+        new_version = CheckVersion(input).check_for_new_version(old_version, text.rstrip())
+    
+    now = datetime.datetime.now()
+    return [{"Version": u"%s %s" % (new_version, now.isoformat()) }] if len(new_version) > 0 else []
+
+def main():
+    print(json.dumps(check(sys.stdin)))
+
+if __name__ == '__main__':
+    main()
